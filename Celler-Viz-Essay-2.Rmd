@@ -1,0 +1,75 @@
+---
+title: "Celler-Viz-Essay-2"
+author: "Eric Celler"
+date: "4/8/2017"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(sp)                  # the older, more stable way
+library(sf)                  # the newer, easier way
+library(leaflet)             # for mapping
+library(scales)              # for scales
+library(tidyverse)
+library(historydata)
+library(USAboundaries)
+library(WPAnarratives)
+library(dplyr)
+library(ggplot2)
+library(maps)
+library(ggthemes)
+library(ggmap)
+data("WPAnarratives")
+data("us_cities_pop")
+```
+
+```{r, echo=FALSE}
+GA <- us_cities_pop %>%
+  filter(state == "GA",
+         year == "1860")
+```
+
+```{r, echo=FALSE, include=FALSE}
+GA %>%
+  select(year, population, lat, lon, city)
+```
+
+```{r, echo=FALSE, include=FALSE}
+leaflet(GA) %>%
+  addTiles() %>%
+  addCircleMarkers() 
+```
+
+
+
+
+The American Civil War’s impact on the United States cannot be overstated.  It is without a doubt a watershed moment in American history, with the changes it brought about reverberating to this day.  Although there are a number of dramatic measures one can examine – death toll, troop movements, battle results – here we will simply seek to briefly peek into the impact that the Civil War might have had on the population of one particular state, Georgia.  Looking at the population in select cities in Georgia in the years 1860 and 1870, one is able to get the broadest of senses regarding the changes in population before and after such a momentous event.  Of course, given that census data encapsulates a wide variety of factors (while overlooking a variety of factors as well), we cannot definitively attribute population changes to the Civil War.  However, looking at this data in these two years sets one on a path toward developing in greater depth a case for potentially tying the Civil War to population changes in the state of Georgia.
+
+Prior to the Civil War, we can see that there are seven major cities in Georgia: Rome, Atlanta, Savannah, Columbus, Macon, Athens, Augusta, and Savannah; curiously, the capital, Milledgeville, is omitted.  Of the cities with available data, we see that Savannah has by far the highest population, which is what we would expect for a port city.  Figure 1 provides an illustration of the populations of these cities in the year 1860.
+
+
+```{r, echo=FALSE}
+leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(data = GA,
+                    label = ~paste(population, city, year, sep = ","),
+                    color = "blue", weight = 2)
+```
+```{r, echo=FALSE}
+GA2 <- us_cities_pop %>%
+  filter(state == "GA",
+         year == "1870")
+``` 
+
+Following the Civil War, there are some modest shifts in population – with one particularly dramatic increase – along with the emergence of census data for cities not previously listed.  Between 1865-1870, the United States was beginning to heal from the wounds of the Civil War.  In that time, Georgia saw itself get a new capital, Atlanta.  Reviewing the population in Atlanta before and after the Civil War reveals a stark contrast: in 1860 the population sat at 9,554, while by 1870 the population had increased to 21,798 – an incredible 44% increase (Map 2 provides a quick reference to the changes in population in Atlanta as well as the other cities listed above).  Even though Atlanta had seen Sherman’s march just a few years earlier, thanks to its superior rail network the city was able to serve as a central point during reconstruction, allowing for the population to boom in the years following the war.  While Savannah was still larger than Atlanta in terms of population, the growth that Atlanta was experiencing would soon push it past the number of residents who called Savannah home.
+
+```{r, echo=FALSE}
+leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(data = GA2,
+                    label = ~paste(population, city, year, sep = ","),
+                    color = "blue", weight = 2)
+```
+While the Civil War saw unprecedented destruction, especially throughout the south and in particular Georgia, it did not succeed in completely decimating the state or the major cities within it.  While the populations of Rome and Columbus saw a decrease from 1860 to 1870, the other cities of Macon, Athens, Augusta, Savannah, and especially Atlanta, saw increases that would seem to suggest a state on the rebound – albeit under meaningfully different circumstances – from a war that would continue to define it well into the future.
+
+
